@@ -1,6 +1,11 @@
 <div class="header">
   <h3 class="text-muted">a storytelling game web client</h3>
 </div>
+<h2>Players:</h2>
+<div>
+  <div ng-repeat="player in gameState.players">{{player.name}}: {{player.score}} points</div>
+</div>
+<h2>Console:</h2>
 <div>
   <div ng-repeat="line in consoleText">{{line}}</div>
 </div>

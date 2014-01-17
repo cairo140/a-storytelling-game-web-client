@@ -1,27 +1,29 @@
 'use strict';
 
 angular.module('astorytellingGameApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, messageInterpreter, messageBuilder) {
   $scope.consoleText = ['Welcome to a storytelling game'];
+  $scope.say = function (msg) { $scope.consoleText.push(msg); };
+  $scope.currentState;
+  $scope.gameState;
+  $scope.player = {};
   $scope.currentInput = '';
   $scope.connected = false;
+
   var ws;
   var onopen = function (evt) {
-    console.log('onopen!');
-    $scope.consoleText.push('Connected to server');
+    $scope.say('Connected to server');
     $scope.connected = true;
     $scope.$digest();
   };
 
   var onclose = function (evt) {
-    console.log('onclose!');
-    $scope.consoleText.push('Connection closed.');
+    $scope.say('Connection closed.');
     $scope.connected = false;
     $scope.$digest();
   };
   var onmessage = function (evt) {
-    console.log('onmessage!');
-    $scope.consoleText.push(evt.data);
+    messageInterpreter.handle($scope, JSON.parse(evt.data));
     $scope.$digest();
   };
   var getConnection = function () {
@@ -36,16 +38,15 @@ angular.module('astorytellingGameApp')
   };
 
   $scope.send = function () {
-    var msg = {};
-    console.log('send!');
+    var msg;
     if(!$scope.connected) {
       return;
     }
-    msg.code = 'identifyResponse';
-    msg.name = $scope.currentInput;
+    msg = messageBuilder.build($scope, $scope.currentInput);
     $scope.currentInput = '';
-    $scope.consoleText.push('You sent:' + JSON.stringify(msg));
-    ws.send(JSON.stringify(msg));
+    if(msg) {
+      ws.send(JSON.stringify(msg));
+    }
   };
   getConnection();
   });
