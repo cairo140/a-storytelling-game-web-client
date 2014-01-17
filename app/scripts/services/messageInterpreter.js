@@ -4,6 +4,9 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
     scope.currentState = 'identify';
     scope.say('Please identify yourself:');
   };
+  messageTypes.currentPlayerUpdate = function (scope, data) {
+    scope.player = data.player;
+  };
   messageTypes.gameUpdate = function (scope, data) {
     scope.gameState = data.game;
     console.log(data.game);
@@ -12,8 +15,15 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
     }
     scope.currentState = 'gameUpdate';
   };
+  messageTypes.playerJoined = messageTypes.gameUpdate;
+  messageTypes.submit = function (scope, data) {
+    scope.gameState = data.game;
+    scope.say('The round is ready to begin!');
+    scope.currentState = 'submit;'
+  };
   return {
     handle: function (scope, data) {
+      console.log('received:' + data.code);
       if(messageTypes[data.code]) {
         return messageTypes[data.code](scope, data);
       } else {

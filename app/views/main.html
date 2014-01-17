@@ -1,12 +1,17 @@
 <div class="header">
   <h3 class="text-muted">a storytelling game web client</h3>
 </div>
-<h2>Players:</h2>
-<div>
-  <div ng-repeat="player in gameState.players">{{player.name}}: {{player.score}} points</div>
+<div class="container">
+<div class="row">
+  <div class="well col-md-4 player-list">
+    <div class="header">Players</div>
+    <div ng-repeat="player in gameState.players" class="player">{{player.name}}: {{player.score}} points</div>
+  </div>
+  <div class="col-md-8 console">
+    <div>
+      <p ng-repeat="line in consoleText">{{line}}</p>
+    </div>
+    <form ng-submit="send()"><input ng-model="currentInput"></form>
+  </div>
 </div>
-<h2>Console:</h2>
-<div>
-  <div ng-repeat="line in consoleText">{{line}}</div>
 </div>
-<form ng-submit="send()"><input ng-model="currentInput"></form>
