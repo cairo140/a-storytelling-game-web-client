@@ -6,6 +6,23 @@ angular.module('astorytellingGameApp')
   $scope.say = function (msg) { $scope.consoleText.push(msg); };
   $scope.currentState;
   $scope.gameState;
+  $scope.notMine = function (obj) {
+    return !obj.player;
+  };
+  $scope.vote = function (id) {
+    var msg = {};
+    console.log('Voting for: ' + id);
+    if($scope.voteId) {
+      $scope.say('You already voted!');
+      return;
+    }
+    msg.submission = id;
+    msg.code = 'voteResponse';
+    ws.send(JSON.stringify(msg));
+    $scope.say('Thank you for your vote');
+    $scope.currentState = 'voteResponse';
+    $scope.voteId = id;
+  }
   $scope.player = {};
   $scope.currentInput = '';
   $scope.connected = false;

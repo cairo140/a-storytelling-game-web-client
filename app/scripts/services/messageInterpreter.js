@@ -12,15 +12,28 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
     console.log(data.game);
     if(scope.currentState == 'identifyResponse') {
       scope.say('Welcome, ' + scope.player.name);
+      scope.currentState = 'gameUpdate';
     }
-    scope.currentState = 'gameUpdate';
   };
   messageTypes.playerJoined = messageTypes.gameUpdate;
+  messageTypes.submissionReceived = messageTypes.gameUpdate;
+  messageTypes.voteReceived = messageTypes.gameUpdate;
   messageTypes.submit = function (scope, data) {
     scope.gameState = data.game;
     scope.say('The round is ready to begin!');
-    scope.currentState = 'submit;'
+    scope.currentState = 'submit';
+    scope.voteId = null;
   };
+  messageTypes.vote = function (scope, data) {
+    scope.gameState = data.game;
+    scope.say('Please vote for your favorite line');
+    scope.currentState = 'vote';
+  }
+  messageTypes.voteRejected = function (scope, data) {
+    scope.say(data.message);
+    scope.voteId = null;
+    scope.currentState = 'vote';
+  }
   return {
     handle: function (scope, data) {
       console.log('received:' + data.code);

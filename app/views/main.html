@@ -7,10 +7,20 @@
     <div class="header">Players</div>
     <div ng-repeat="player in gameState.players" class="player">{{player.name}}: {{player.score}} points</div>
   </div>
-  <div class="col-md-8 console">
-    <div>
-      <p ng-repeat="line in consoleText">{{line}}</p>
+  <div class="col-md-8">
+    <div class="panel panel-info" ng-show="gameState && gameState.pastRounds.length > 0">
+      <div class="panel-heading">The Story So Far...</div>
+      <div class="panel-body">
+        <p ng-repeat="line in gameState.pastRounds">{{line.content}}</p>
+      </div>
     </div>
+    <div class="panel panel-info" ng-show="(gameState.currentRound.submissions | filter:notMine).length > 0">
+      <div class="panel-heading">Current Submissions</div>
+      <div class="panel-body">
+        <p class="well" ng-repeat="line in gameState.currentRound.submissions | filter:notMine" ng-class="{voted: line.id == voteId}" ng-click="vote(line.id)">{{line.content}}</p>
+      </div>
+    </div>
+    <div console="consoleText" id="console" class="panel panel-default console"></div>
     <form ng-submit="send()"><input ng-model="currentInput"></form>
   </div>
 </div>

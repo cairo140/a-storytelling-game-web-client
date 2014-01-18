@@ -11,6 +11,26 @@ angular.module('astorytellingGameApp').factory('messageBuilder', function () {
   messageTypes.identifyResponse = function (scope, data) {
     scope.say('Waiting for server response, please be patient');
     return null;
+  };
+  messageTypes.submit = function (scope, data) {
+    var msg = {};
+    msg.code = 'submitResponse';
+    msg.content = data;
+    scope.currentState = 'submitResponse';
+    scope.say('Thank you for your submission!');
+    return msg;
+  };
+  messageTypes.submitResponse = function (scope, data) {
+    scope.say('You\'ve already sent a response');
+    return null;
+  };
+  messageTypes.gameUpdate = function (scope, data) {
+    scope.say('Waiting for other players...');
+    return null;
+  }
+  messageTypes.vote = function (scope, data) {
+    scope.say('Please click on your favorite submission');
+    return null;
   }
   return {
     build: function (scope, data) {
