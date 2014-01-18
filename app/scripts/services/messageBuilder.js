@@ -32,6 +32,9 @@ angular.module('astorytellingGameApp').factory('messageBuilder', function () {
     scope.say('Please click on your favorite submission');
     return null;
   }
+  messageTypes.finished = function (scope, data) {
+    return null;
+  }
   return {
     build: function (scope, data) {
       if(messageTypes[scope.currentState]) {

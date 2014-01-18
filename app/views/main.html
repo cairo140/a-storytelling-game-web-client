@@ -4,6 +4,12 @@
 <div class="container">
 <div class="row">
   <div class="col-md-8">
+    <div class="panel panel-success" ng-show="winner">
+      <div class="panel-heading">Game Over! The winners were:</div>
+      <ul class="panel-body">
+        <li ng-repeat="player in winner">{{player.name}}</li>
+      </ul>
+    </div>
     <div class="panel panel-info" ng-show="gameState && gameState.pastRounds.length > 0">
       <div class="panel-heading">The Story So Far...</div>
       <div class="panel-body">
