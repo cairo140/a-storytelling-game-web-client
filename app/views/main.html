@@ -3,25 +3,31 @@
 </div>
 <div class="container">
 <div class="row">
-  <div class="well col-md-4 player-list">
-    <div class="header">Players</div>
-    <div ng-repeat="player in gameState.players" class="player">{{player.name}}: {{player.score}} points</div>
-  </div>
   <div class="col-md-8">
     <div class="panel panel-info" ng-show="gameState && gameState.pastRounds.length > 0">
       <div class="panel-heading">The Story So Far...</div>
       <div class="panel-body">
-        <p ng-repeat="line in gameState.pastRounds">{{line.content}}</p>
+        <p ng-repeat="line in gameState.pastRounds" winning-line="line.submissions"></p>
       </div>
     </div>
-    <div class="panel panel-info" ng-show="(gameState.currentRound.submissions | filter:notMine).length > 0">
+    <div class="panel panel-info" ng-show="gameState.currentRound.submissions.length > 0">
       <div class="panel-heading">Current Submissions</div>
       <div class="panel-body">
-        <p class="well" ng-repeat="line in gameState.currentRound.submissions | filter:notMine" ng-class="{voted: line.id == voteId}" ng-click="vote(line.id)">{{line.content}}</p>
+        <button class="btn-block" ng-repeat="line in gameState.currentRound.submissions"
+                ng-class="{voted: line.id == voteId, disabled: line.player}"
+                ng-disabled="line.player || currentState !== 'vote'"
+                ng-click="vote(line.id)">{{line.content}}</button>
       </div>
     </div>
-    <div console="consoleText" id="console" class="panel panel-default console"></div>
     <form ng-submit="send()"><input ng-model="currentInput"></form>
+  </div>
+  <div class="col-md-4">
+    <div class="well player-list">
+      <div class="header">Players</div>
+      <div ng-repeat="player in gameState.players" class="player"><span ng-show="gameState.currentRound && gameState.currentRound.remainingVoters.indexOf(player.id) == -1">(voted)</span> {{player.name}}: {{player.score}} points</div>
+    </div>
+    <div console="consoleText" id="console" class="panel panel-default console"></div>
+
   </div>
 </div>
 </div>

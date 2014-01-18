@@ -6,9 +6,6 @@ angular.module('astorytellingGameApp')
   $scope.say = function (msg) { $scope.consoleText.push(msg); };
   $scope.currentState;
   $scope.gameState;
-  $scope.notMine = function (obj) {
-    return !obj.player;
-  };
   $scope.vote = function (id) {
     var msg = {};
     console.log('Voting for: ' + id);

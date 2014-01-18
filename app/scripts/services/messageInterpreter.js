@@ -32,7 +32,6 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
   messageTypes.voteRejected = function (scope, data) {
     scope.say(data.message);
     scope.voteId = null;
-    scope.currentState = 'vote';
   }
   return {
     handle: function (scope, data) {
