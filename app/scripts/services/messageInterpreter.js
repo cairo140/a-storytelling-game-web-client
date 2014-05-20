@@ -1,3 +1,4 @@
+'use strict';
 angular.module('astorytellingGameApp').factory('messageInterpreter', function () {
   var messageTypes = {};
   var getWinner = function(players) {
@@ -14,7 +15,7 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
     }
     return winners;
   };
-  messageTypes.identify = function (scope, data) {
+  messageTypes.identify = function (scope) {
     scope.currentState = 'identify';
     scope.say('Please identify yourself:');
   };
@@ -24,7 +25,7 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
   messageTypes.gameUpdate = function (scope, data) {
     scope.gameState = data.game;
     console.log(data.game);
-    if(scope.currentState == 'identifyResponse') {
+    if(scope.currentState === 'identifyResponse') {
       scope.say('Welcome, ' + scope.player.name);
       scope.currentState = 'gameUpdate';
     }
@@ -64,5 +65,5 @@ angular.module('astorytellingGameApp').factory('messageInterpreter', function ()
         scope.say('found an unrecognized message:' + JSON.stringify(data));
       }
     }
-  }
-})
+  };
+});

@@ -1,13 +1,14 @@
-angular.module('astorytellingGameApp').directive('console', function () {
+'use strict';
+angular.module('astorytellingGameApp').directive('console', function ($window) {
   return {
     scope: {
       console: '='
     },
     template: '<p ng-repeat="line in console track by $index">{{line}}</p>',
-    link: function (scope, element, attrs) {
+    link: function (scope, element) {
       scope.$watch('console', function () {
-        $('#console')[0].scrollTop = $('#console').height();
-      }, true)
+        element.scrollTop = $window.jQuery(element).height();
+      }, true);
     }
-  }
-})
+  };
+});

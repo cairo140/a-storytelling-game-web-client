@@ -1,11 +1,10 @@
 'use strict';
-
 angular.module('astorytellingGameApp')
-  .controller('MainCtrl', function ($scope, messageInterpreter, messageBuilder) {
+.controller('MainCtrl', function ($scope, messageInterpreter, messageBuilder) {
   $scope.consoleText = ['Welcome to a storytelling game'];
   $scope.say = function (msg) { $scope.consoleText.push(msg); };
-  $scope.currentState;
-  $scope.gameState;
+  $scope.currentState = null;
+  $scope.gameState = null;
   $scope.vote = function (id) {
     var msg = {};
     console.log('Voting for: ' + id);
@@ -19,19 +18,19 @@ angular.module('astorytellingGameApp')
     $scope.say('Thank you for your vote');
     $scope.currentState = 'voteResponse';
     $scope.voteId = id;
-  }
+  };
   $scope.player = {};
   $scope.currentInput = '';
   $scope.connected = false;
 
   var ws;
-  var onopen = function (evt) {
+  var onopen = function () {
     $scope.say('Connected to server');
     $scope.connected = true;
     $scope.$digest();
   };
 
-  var onclose = function (evt) {
+  var onclose = function () {
     $scope.say('Connection closed.');
     $scope.connected = false;
     $scope.$digest();
@@ -63,4 +62,4 @@ angular.module('astorytellingGameApp')
     }
   };
   getConnection();
-  });
+});

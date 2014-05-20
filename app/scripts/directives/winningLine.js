@@ -1,10 +1,11 @@
+'use strict';
 angular.module('astorytellingGameApp').directive('winningLine', function () {
   return {
     scope: {
       'winningLine': '='
     },
     template: '<p>{{winner()}}</p>',
-    link: function (scope, element, attrs) {
+    link: function (scope) {
       scope.winner = function () {
         var i;
         var maxScore = -1;
@@ -15,14 +16,14 @@ angular.module('astorytellingGameApp').directive('winningLine', function () {
           if(!winner || currentLine.score > maxScore) {
             maxScore = currentLine.score;
             winner = currentLine;
-          } else if(currentLine.score == maxScore) {
+          } else if(currentLine.score === maxScore) {
             if(currentLine.content.length < winner.content.length) {
               winner = currentLine;
             }
           }
         }
         return winner.content;
-      }
+      };
     }
-  }
+  };
 });

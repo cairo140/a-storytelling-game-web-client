@@ -1,3 +1,4 @@
+'use strict';
 angular.module('astorytellingGameApp').factory('messageBuilder', function () {
   var messageTypes = {};
   messageTypes.identify = function (scope, data) {
@@ -8,7 +9,7 @@ angular.module('astorytellingGameApp').factory('messageBuilder', function () {
     scope.currentState = 'identifyResponse';
     return msg;
   };
-  messageTypes.identifyResponse = function (scope, data) {
+  messageTypes.identifyResponse = function (scope) {
     scope.say('Waiting for server response, please be patient');
     return null;
   };
@@ -20,21 +21,21 @@ angular.module('astorytellingGameApp').factory('messageBuilder', function () {
     scope.say('Thank you for your submission!');
     return msg;
   };
-  messageTypes.submitResponse = function (scope, data) {
+  messageTypes.submitResponse = function (scope) {
     scope.say('You\'ve already sent a response');
     return null;
   };
-  messageTypes.gameUpdate = function (scope, data) {
+  messageTypes.gameUpdate = function (scope) {
     scope.say('Waiting for other players...');
     return null;
-  }
-  messageTypes.vote = function (scope, data) {
+  };
+  messageTypes.vote = function (scope) {
     scope.say('Please click on your favorite submission');
     return null;
-  }
-  messageTypes.finished = function (scope, data) {
+  };
+  messageTypes.finished = function () {
     return null;
-  }
+  };
   return {
     build: function (scope, data) {
       if(messageTypes[scope.currentState]) {
@@ -43,5 +44,5 @@ angular.module('astorytellingGameApp').factory('messageBuilder', function () {
         scope.say('do not understand how to respond while in state:' + scope.currentState);
       }
     }
-  }
-})
+  };
+});
